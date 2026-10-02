@@ -1,0 +1,25 @@
+# Secrets and local runtime configuration
+.env
+.env.*
+*.pem
+*.key
+
+# Python environments and generated files
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Test and development-only files
+test_*.py
+requirements-dev.txt
+
+# VCS, editor and OS metadata
+.git/
+.gitignore
+.vscode/
+.DS_Store
+*.log
