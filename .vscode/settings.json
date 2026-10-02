@@ -1,0 +1,21 @@
+{
+  "python-envs.pythonProjects": [
+    { "path": "${workspaceFolder}/backend", "envManager": "ms-python.python:venv", "packageManager": "ms-python.python:pip" },
+    { "path": "${workspaceFolder}/frontend", "envManager": "ms-python.python:venv", "packageManager": "ms-python.python:pip" },
+    { "path": "${workspaceFolder}/mcp_server", "envManager": "ms-python.python:venv", "packageManager": "ms-python.python:pip" }
+  ],
+  "python-envs.workspaceSearchPaths": ["backend/.venv", "frontend/.venv", "mcp_server/.venv"],
+  "python.terminal.activateEnvironment": true,
+  "terminal.integrated.shellIntegration.enabled": true,
+  "terminal.integrated.profiles.osx": {
+    "zsh (component venv)": {
+      "path": "/bin/zsh",
+      "args": ["-i"],
+      "env": {
+        "ZDOTDIR": "${workspaceFolder}/.vscode",
+        "PROJECT_ROOT": "${workspaceFolder}"
+      }
+    }
+  },
+  "terminal.integrated.defaultProfile.osx": "zsh (component venv)"
+}
