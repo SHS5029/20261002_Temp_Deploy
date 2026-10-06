@@ -1,0 +1,66 @@
+name: MCP CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: mcp_server
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            mcp_server/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip check
+
+      - name: Check Python syntax
+        run: python -m compileall -q server.py
+
+      - name: Validate Compose
+        working-directory: .
+        run: docker compose config --quiet
+
+      - name: Build MCP image
+        working-directory: .
+        run: docker compose build weather-mcp
+
+      # 외부 LLM·날씨 API 호출 없이 로컬 컨테이너의 준비 상태를 확인합니다.
+      - name: Smoke test MCP
+        working-directory: .
+        run: |
+          docker compose up -d --wait --wait-timeout 180 weather-mcp
+          docker compose exec -T weather-mcp python -c "import urllib.request; print(urllib.request.urlopen('http://127.0.0.1:8010/health').read().decode())"
+
+      - name: Show Compose logs on failure
+        if: failure()
+        working-directory: .
+        run: |
+          docker compose ps
+          docker compose logs --tail=100
+
+      - name: Stop Compose stack
+        if: always()
+        working-directory: .
+        run: docker compose down --volumes --remove-orphans

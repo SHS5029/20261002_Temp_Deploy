@@ -1,5 +1,12 @@
 # AWS EC2 자동 배포 준비
 
+> **현재 GitHub Actions는 CI만 실행합니다.** `push`, `pull_request`, 수동 실행 시
+> `.github/workflows/backend.yml`, `frontend.yml`, `mcp.yml`에서 각각 의존성 설치,
+> Python 문법 검사, Docker 빌드와 헬스 체크를 수행합니다. Backend는 Fake MCP·LLM
+> 계약 테스트도 실행합니다. EC2 배포 Job과 배포 입력은 제거되어 AWS Secret이 필요하지 않습니다.
+> 아래 EC2 자동 배포 설명은 참고 자료이며 현재 워크플로에서는 실행되지 않습니다.
+
+
 ## 1. EC2 준비
 
 Amazon Linux 2023 EC2에 Docker와 Docker Compose Plugin을 설치합니다. Security Group은 SSH

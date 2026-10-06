@@ -1,5 +1,12 @@
 # 05 Weather MCP Deployment Project
 
+> **현재 GitHub Actions는 CI만 실행합니다.** `push`, `pull_request`, 수동 실행 시
+> `.github/workflows/backend.yml`, `frontend.yml`, `mcp.yml`에서 각각 의존성 설치,
+> Python 문법 검사, Docker 빌드와 헬스 체크를 수행합니다. Backend는 Fake MCP·LLM
+> 계약 테스트도 실행합니다. EC2 배포 Job과 배포 입력은 제거되어 AWS Secret이 필요하지 않습니다.
+> 아래 EC2 자동 배포 설명은 참고 자료이며 현재 워크플로에서는 실행되지 않습니다.
+
+
 실제 날씨를 조회하는 MCP Tool 하나를 가진 가장 작은 Agent 배포 프로젝트입니다. Redis,
 PostgreSQL, Ollama는 사용하지 않습니다. 목표는 Agent 기능을 늘리는 것이 아니라 Docker
 Compose, CI, EC2 자동 배포의 전체 흐름을 확인하는 것입니다.
